@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Smikah Foods Enugu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50">
+
+   <nav class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm py-4 px-6">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="text-2xl font-black text-orange-600 tracking-tighter uppercase">
+            Smikah<span class="text-black">Foods</span>
+        </div>
+        
+        <div class="hidden md:flex space-x-8 font-bold text-sm uppercase tracking-widest">
+            <a href="index.html" class="hover:text-orange-600 transition">Home</a>
+            <a href="menu.html" class="hover:text-orange-600 transition">Menu</a>
+            <a href="about.html" class="hover:text-orange-600 transition">About</a>
+            <a href="contact.html" class="hover:text-orange-600 transition">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <button onclick="toggleCart()" class="relative hover:text-orange-600 transition-colors">
+    <i class="fas fa-shopping-basket text-xl"></i>
+    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-600 text-white text-[10px] rounded-full px-1.5 font-bold">0</span>
+</button>
+            <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="menu.html" class="hidden sm:block bg-black text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-orange-600 transition">ORDER</a>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white border-t border-gray-100 flex flex-col p-6 space-y-4 shadow-xl md:hidden">
+        <a href="index.html" class="font-bold text-lg border-b pb-2">Home</a>
+        <a href="menu.html" class="font-bold text-lg border-b pb-2">Menu</a>
+        <a href="about.html" class="font-bold text-lg border-b pb-2">About</a>
+        <a href="contact.html" class="font-bold text-lg border-b pb-2">Contact</a>
+        <a href="menu.html" class="bg-orange-600 text-white text-center py-4 rounded-xl font-black">ORDER NOW</a>
+    </div>
+</nav>
+
+    <section class="pt-32 pb-12 bg-orange-600 text-white text-center relative overflow-hidden">
+        <a href="index.html" class="md:hidden absolute top-24 left-6 bg-white/20 p-2 rounded-full text-white">
+            <i class="fas fa-home"></i>
+        </a>
+        
+        <h1 class="text-5xl font-black uppercase mb-2" data-aos="fade-down">Enugu's Finest Menu</h1>
+        <p class="opacity-90">Fresh flavors from the heart of Coal City</p>
+    </section>
+
+    <main class="max-w-7xl mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+        
+   <aside class="col-span-1">
+    <div id="category-box" class="sticky top-28 space-y-2">
+        <h3 class="font-black text-xl mb-6 uppercase tracking-widest text-black">Categories</h3>
+        
+        <button onclick="filterCategory('all', this)" 
+            class="filter-btn active-btn w-full text-left px-6 py-4 rounded-xl font-bold transition-all duration-300">
+            All Items
+        </button>
+        
+        <button onclick="filterCategory('indomie', this)" 
+            class="filter-btn w-full text-left px-6 py-4 rounded-xl font-bold text-gray-500 hover:bg-gray-100 hover:text-black transition-all duration-300">
+            Stir-Fry Indomie
+        </button>
+        
+        <button onclick="filterCategory('spaghetti', this)" 
+            class="filter-btn w-full text-left px-6 py-4 rounded-xl font-bold text-gray-500 hover:bg-gray-100 hover:text-black transition-all duration-300">
+            Stir-Fry Spaghetti
+        </button>
+        
+        <button onclick="filterCategory('breakfast', this)" 
+            class="filter-btn w-full text-left px-6 py-4 rounded-xl font-bold text-gray-500 hover:bg-gray-100 hover:text-black transition-all duration-300">
+            Breakfast & Toast
+        </button>
+    </div>
+</aside>
+
+<div class="col-span-1 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-8" id="full-menu">
+    
+    <div class="menu-card bg-white rounded-3xl p-4 shadow-sm border border-gray-100" data-category="indomie">
+        <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=500" class="w-full h-48 object-cover rounded-2xl mb-4">
+        <h4 class="text-xl font-bold">Signature Indomie</h4>
+        <span class="text-orange-600 font-black">₦3,500</span>
+      <button onclick="addToCart('Signature Indomie', 3500)" class="w-full mt-4 py-3 bg-gray-100 rounded-xl font-black hover:bg-orange-600 hover:text-white transition-all">
+    ADD TO CART
+</button>
+</button>
+    </div>
+
+    <div class="menu-card bg-white rounded-3xl p-4 shadow-sm border border-gray-100" data-category="spaghetti">
+        <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=500" class="w-full h-48 object-cover rounded-2xl mb-4">
+        <h4 class="text-xl font-bold">Stir-Fry Spaghetti</h4>
+        <span class="text-orange-600 font-black">₦4,200</span>
+        <button onclick="addToCart('Stir-Fry Spaghetti', 4200)" class="w-full mt-4 py-3 bg-gray-100 rounded-xl font-black hover:bg-orange-600 hover:text-white transition-all">
+    ADD TO CART
+</button>
+    </div>
+
+    <div class="menu-card bg-white rounded-3xl p-4 shadow-sm border border-gray-100" data-category="breakfast">
+        <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&w=500" class="w-full h-48 object-cover rounded-2xl mb-4">
+        <h4 class="text-xl font-bold">Creamy Bread Toast</h4>
+        <span class="text-orange-600 font-black">₦2,500</span>
+        <button onclick="addToCart('Creamy Bread Toast', 2500)" class="w-full mt-4 py-3 bg-gray-100 rounded-xl font-black hover:bg-orange-600 hover:text-white transition-all">
+    ADD TO CART
+</button>
+    </div>
+
+    <div class="menu-card bg-white rounded-3xl p-4 shadow-sm border border-gray-100" data-category="breakfast">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500" class="w-full h-48 object-cover rounded-2xl mb-4">
+        <h4 class="text-xl font-bold">Grilled Sausage (2pcs)</h4>
+        <span class="text-orange-600 font-black">₦1,500</span>
+         <button onclick="addToCart('Grilled Sausage', 1500)" class="w-full mt-4 py-3 bg-gray-100 rounded-xl font-black hover:bg-orange-600 hover:text-white transition-all">
+    ADD TO CART
+</button>
+    </div>
+</div>
+    </main>
+
+    <a href="https://wa.me/2348124896072?text=Hello%20Smikah%20Foods!%20I%20am%20visiting%20your%20website%20and%20I%20would%20like%20to%20place%20an%20order%20for%20delivery%20in%20Enugu." 
+   target="_blank"
+   class="fixed bottom-6 right-6 z-[999] bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:rotate-12 transition-all duration-300 group">
+    
+    <i class="fab fa-whatsapp text-3xl"></i>
+
+    <span class="absolute right-20 bg-black text-white text-xs font-bold px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+        Order via whatsapp 📞
+    </span>
+
+    <span class="absolute top-0 right-0 flex h-4 w-4">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+    </span>
+</a>
+    <div id="cart-sidebar" class="fixed inset-0 z-[200] hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleCart()"></div>
+    
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl p-8 flex flex-col">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-black uppercase">Your Bag</h2>
+            <button onclick="toggleCart()" class="text-2xl hover:rotate-90 transition-transform">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div id="cart-items-container" class="flex-1 overflow-y-auto space-y-6">
+            </div>
+
+        <div class="border-t pt-6 mt-6">
+            <div class="flex justify-between text-xl font-bold mb-6">
+                <span>Total:</span>
+                <span id="cart-total-price">₦0</span>
+            </div>
+            <button onclick="checkoutToWhatsApp()" class="w-full py-4 bg-orange-600 text-white font-black rounded-2xl hover:bg-black transition shadow-lg">
+                ORDER ON WHATSAPP
+            </button>
+        </div>
+    </div>
+</div>
+<div id="cart-drawer" class="fixed inset-0 z-[1000] hidden">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleCart()"></div>
+    
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col transition-transform">
+        <div class="p-6 border-b flex justify-between items-center bg-orange-600 text-white">
+            <h2 class="text-2xl font-black uppercase tracking-tight">Your Order</h2>
+            <button onclick="toggleCart()" class="text-2xl hover:rotate-90 transition-all">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div id="cart-list" class="flex-1 overflow-y-auto p-6 space-y-6">
+            <p id="empty-msg" class="text-center text-gray-400 mt-10">Your bag is empty. <br> Time to add some Stir-fry!</p>
+        </div>
+
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-gray-500 font-bold uppercase text-xs tracking-widest">Total Amount</span>
+                <span id="cart-total" class="text-3xl font-black text-black">₦0</span>
+            </div>
+            <button onclick="sendOrderToWhatsApp()" class="w-full py-5 bg-black text-white font-black rounded-2xl hover:bg-orange-600 transition-all shadow-xl flex items-center justify-center gap-3">
+                <i class="fab fa-whatsapp text-xl"></i>
+                CHECKOUT TO WHATSAPP
+            </button>
+        </div>
+    </div>
+</div>
+
+    <footer class="bg-black text-white py-10 text-center">
+        <p>© 2026 Smikah Foods | Proudly serving Enugu 042</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+      function filterCategory(cat, clickedBtn) {
+    // 1. FILTER THE MENU ITEMS
+    const items = document.querySelectorAll('.menu-card');
+    items.forEach(item => {
+        if (cat === 'all' || item.getAttribute('data-category') === cat) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    // 2. RESET ALL BUTTONS
+    const buttons = document.querySelectorAll('.filter-btn');
+    buttons.forEach(btn => {
+        // Remove the active class from every single button
+        btn.classList.remove('active-btn');
+        // Reset them to the default gray text
+        btn.classList.add('text-gray-500');
+        btn.classList.remove('text-black');
+    });
+
+    // 3. ACTIVATE THE CLICKED BUTTON
+    // Add the orange background/white text class
+    clickedBtn.classList.add('active-btn');
+    // Remove the gray text so it doesn't clash with the white text
+    clickedBtn.classList.remove('text-gray-500');
+}
+    </script>
+    <script>
+   let cart = [];
+
+// Toggle Cart View
+function toggleCart() {
+    const sidebar = document.getElementById('cart-sidebar');
+    sidebar.classList.toggle('hidden');
+}
+
+// Add Item to Cart
+function addToCart(name, price) {
+    // Check if item already exists
+    const existingItem = cart.find(item => item.name === name);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ name, price, quantity: 1 });
+    }
+    
+    updateCartUI();
+    // Animation feedback
+    alert(`${name} added to your cart!`);
+}
+
+// Update the Cart Display
+function updateCartUI() {
+    const container = document.getElementById('cart-items-container');
+    const totalDisplay = document.getElementById('cart-total-price');
+    const cartCount = document.getElementById('cart-count'); // The small number in nav
+    
+    container.innerHTML = '';
+    let total = 0;
+    let itemsCount = 0;
+
+    cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        itemsCount += item.quantity;
+
+        container.innerHTML += `
+            <div class="flex justify-between items-center border-b pb-4">
+                <div>
+                    <h4 class="font-bold">${item.name}</h4>
+                    <p class="text-orange-600 font-bold">₦${item.price.toLocaleString()}</p>
+                    <div class="flex items-center gap-3 mt-2">
+                        <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-gray-100 rounded-full">-</button>
+                        <span class="font-bold">${item.quantity}</span>
+                        <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-gray-100 rounded-full">+</button>
+                    </div>
+                </div>
+                <span class="font-black text-black">₦${itemTotal.toLocaleString()}</span>
+            </div>
+        `;
+    });
+
+    totalDisplay.innerText = `₦${total.toLocaleString()}`;
+    if (cartCount) cartCount.innerText = itemsCount;
+}
+
+function changeQty(index, delta) {
+    cart[index].quantity += delta;
+    if (cart[index].quantity <= 0) cart.splice(index, 1);
+    updateCartUI();
+}
+
+// THE FINAL STEP: Send order to CEO
+function checkoutToWhatsApp() {
+    if (cart.length === 0) return alert("Your bag is empty!");
+
+    const ceoNumber = "2348124896072"; // USE REAL NUMBER
+    let message = "*SMIKAH FOODS ORDER*%0A------------------%0A";
+    
+    cart.forEach(item => {
+        message += `• ${item.name} (x${item.quantity}) - ₦${(item.price * item.quantity).toLocaleString()}%0A`;
+    });
+
+    const total = document.getElementById('cart-total-price').innerText;
+    message += `------------------%0A*Total: ${total}*%0A%0APlease confirm my order for Enugu delivery!`;
+
+    window.open(`https://wa.me/${ceoNumber}?text=${message}`, '_blank');
+}     
+    </script>
+    <script>
+// 1. Open/Close Cart
+function toggleCart() {
+    document.getElementById('cart-drawer').classList.toggle('hidden');
+}
+
+// 2. Add to Cart
+function addToCart(name, price) {
+    const existingItem = cart.find(item => item.name === name);
+    
+    if (existingItem) {
+        existingItem.qty += 1;
+    } else {
+        cart.push({ name, price, qty: 1 });
+    }
+    
+    renderCart();
+    // Open the cart automatically so user sees it worked
+    document.getElementById('cart-drawer').classList.remove('hidden');
+}
+
+// 3. Change Quantity (Remove logic is built-in here)
+function updateQty(index, change) {
+    cart[index].qty += change;
+    if (cart[index].qty <= 0) {
+        cart.splice(index, 1); // Remove item if qty hits 0
+    }
+    renderCart();
+}
+
+// 4. Draw the Cart Items
+function renderCart() {
+    const list = document.getElementById('cart-list');
+    const totalEl = document.getElementById('cart-total');
+    const countEl = document.getElementById('cart-count'); // The badge in nav
+    
+    if (cart.length === 0) {
+        list.innerHTML = `<p class="text-center text-gray-400 mt-10">Your bag is empty.</p>`;
+        totalEl.innerText = "₦0";
+        if(countEl) countEl.innerText = "0";
+        return;
+    }
+
+    let html = "";
+    let total = 0;
+    let totalQty = 0;
+
+    cart.forEach((item, index) => {
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+        totalQty += item.qty;
+
+        html += `
+        <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl border border-gray-100">
+            <div>
+                <h4 class="font-bold text-black">${item.name}</h4>
+                <p class="text-orange-600 font-black text-sm">₦${item.price.toLocaleString()}</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="updateQty(${index}, -1)" class="w-8 h-8 rounded-full bg-white border flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-colors">-</button>
+                <span class="font-bold text-lg">${item.qty}</span>
+                <button onclick="updateQty(${index}, 1)" class="w-8 h-8 rounded-full bg-white border flex items-center justify-center hover:bg-green-50 hover:text-green-500 transition-colors">+</button>
+            </div>
+        </div>`;
+    });
+
+    list.innerHTML = html;
+    totalEl.innerText = `₦${total.toLocaleString()}`;
+    if(countEl) countEl.innerText = totalQty;
+}
+
+// 5. Send itemized list to CEO
+function sendOrderToWhatsApp() {
+    // 1. Check if cart is empty
+    if (cart.length === 0) {
+        alert("Your bag is empty! Add some 042 delicacies first.");
+        return;
+    }
+
+    const ceoNumber = "2348124896072"; // Ensure this is the correct CEO number
+
+    // 2. Build the message using backticks (the key next to the '1' on your keyboard)
+    // This allows us to type naturally with emojis and line breaks
+    const message = `🔥 *NEW ORDER - SMIKAH FOODS ENUGU* 🔥
+━━━━━━━━━━━━━━━━━━━━━
+
+${cart.map(item => `📍 *${item.name}*
+      ${item.qty} x ₦${item.price.toLocaleString()} = *₦${(item.price * item.qty).toLocaleString()}*`).join('\n\n')}
+
+━━━━━━━━━━━━━━━━━━━━━
+💰 *TOTAL TO PAY: ${document.getElementById('cart-total').innerText}*
+━━━━━━━━━━━━━━━━━━━━━
+
+📍 *Delivery Location:* [Type Address Here]
+🕒 *Order Type:* Instant Delivery
+
+Confirm this order, Smikah! 🍛`;
+
+    // 3. THE CRITICAL STEP: Fully encode the URL
+    const finalUrl = "https://wa.me/" + ceoNumber + "?text=" + encodeURIComponent(message);
+
+    // 4. Open in a new tab
+    window.open(finalUrl, '_blank');
+}
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

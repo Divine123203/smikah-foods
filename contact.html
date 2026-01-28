@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Smikah Foods Enugu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-white">
+<nav class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm py-4 px-6">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="text-2xl font-black text-orange-600 tracking-tighter uppercase">
+            Smikah<span class="text-black">Foods</span>
+        </div>
+        
+        <div class="hidden md:flex space-x-8 font-bold text-sm uppercase tracking-widest">
+            <a href="index.html" class="hover:text-orange-600 transition">Home</a>
+            <a href="menu.html" class="hover:text-orange-600 transition">Menu</a>
+            <a href="about.html" class="hover:text-orange-600 transition">About</a>
+            <a href="contact.html" class="hover:text-orange-600 transition">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button class="relative hover:text-orange-600">
+                <i class="fas fa-shopping-basket text-xl"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-600 text-white text-[10px] rounded-full px-1.5 font-bold">0</span>
+            </button>
+            <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="menu.html" class="hidden sm:block bg-black text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-orange-600 transition">ORDER</a>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white border-t border-gray-100 flex flex-col p-6 space-y-4 shadow-xl md:hidden">
+        <a href="index.html" class="font-bold text-lg border-b pb-2">Home</a>
+        <a href="menu.html" class="font-bold text-lg border-b pb-2">Menu</a>
+        <a href="about.html" class="font-bold text-lg border-b pb-2">About</a>
+        <a href="contact.html" class="font-bold text-lg border-b pb-2">Contact</a>
+        <a href="menu.html" class="bg-orange-600 text-white text-center py-4 rounded-xl font-black">ORDER NOW</a>
+    </div>
+</nav>
+
+    <section class="pt-32 pb-20 px-6 bg-gray-50">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            
+            <div data-aos="fade-right">
+                <h1 class="text-5xl md:text-7xl font-black text-black mb-6 uppercase">Get In <span class="text-orange-600">Touch</span></h1>
+                <p class="text-gray-500 text-lg mb-8">Have a craving? Want to cater an event in Enugu? Drop us a message or give us a call right now.</p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">Call to Order</p>
+                            <a href="tel:+234800SMIKAH" class="text-xl font-black text-black hover:text-orange-600">+234 812-4896-072</a>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">Visit Us</p>
+                            <p class="text-xl font-black text-black">Independence Layout, Enugu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-10 rounded-[3rem] shadow-2xl border border-gray-100" data-aos="fade-left">
+               <form id="contactForm" class="space-y-6">
+    <div class="grid grid-cols-2 gap-4">
+        <input type="text" id="userName" placeholder="Your Name" required class="w-full px-6 py-4 bg-gray-50 rounded-2xl outline-none border border-transparent focus:border-orange-500 transition">
+        <input type="text" id="userPhone" placeholder="Phone Number" required class="w-full px-6 py-4 bg-gray-50 rounded-2xl outline-none border border-transparent focus:border-orange-500 transition">
+    </div>
+    <input type="email" id="userEmail" placeholder="Email Address" required class="w-full px-6 py-4 bg-gray-50 rounded-2xl outline-none border border-transparent focus:border-orange-500 transition">
+    <textarea id="userMessage" placeholder="How can we help you?" rows="4" required class="w-full px-6 py-4 bg-gray-50 rounded-2xl outline-none border border-transparent focus:border-orange-500 transition"></textarea>
+    
+    <button type="button" onclick="sendMessageToCEO()" class="w-full py-4 bg-orange-600 text-white font-black rounded-2xl hover:bg-black transition duration-300 shadow-lg shadow-orange-200">
+        SEND TO CEO
+    </button>
+</form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center border-t border-gray-100">
+        <p class="text-gray-400">© 2026 Smikah Foods | Enugu's Number One</p>
+         <a href="https://wa.me/2348124896072?text=Hello%20Smikah%20Foods!%20I%20am%20visiting%20your%20website%20and%20I%20would%20like%20to%20place%20an%20order%20for%20delivery%20in%20Enugu." 
+   target="_blank"
+   class="fixed bottom-6 right-6 z-[999] bg-[#25D366] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:rotate-12 transition-all duration-300 group">
+    
+    <i class="fab fa-whatsapp text-3xl"></i>
+
+    <span class="absolute right-20 bg-black text-white text-xs font-bold px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+        Order via Whatsapp 📞
+    </span>
+
+    <span class="absolute top-0 right-0 flex h-4 w-4">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+    </span>
+</a>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init();</script>
+    <script>
+        function sendMessageToCEO() {
+    // 1. Grab the values from the inputs
+    const name = document.getElementById('userName').value;
+    const phone = document.getElementById('userPhone').value;
+    const email = document.getElementById('userEmail').value;
+    const message = document.getElementById('userMessage').value;
+
+    // 2. Simple Validation: Check if fields are empty
+    if (!name || !phone || !message) {
+        alert("Please fill in your Name, Phone, and Message so we can help you!");
+        return;
+    }
+
+    // 3. Set the CEO's WhatsApp number (use international format without +)
+    const ceoNumber = "2348124896072"; 
+
+    // 4. Create the pre-filled message (using %0A for new lines)
+    const encodedMessage = `*NEW WEBSITE INQUIRY*%0A` +
+                           `--------------------------%0A` +
+                           `*Name:* ${name}%0A` +
+                           `*Phone:* ${phone}%0A` +
+                           `*Email:* ${email}%0A` +
+                           `*Message:* ${message}`;
+
+    // 5. Open WhatsApp in a new tab
+    const whatsappURL = `https://wa.me/${ceoNumber}?text=${encodedMessage}`;
+    window.open(whatsappURL, '_blank');
+}
+    </script>
+    
+</body>
+</html>
