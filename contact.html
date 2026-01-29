@@ -28,9 +28,9 @@
                 <i class="fas fa-shopping-basket text-xl"></i>
                 <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-600 text-white text-[10px] rounded-full px-1.5 font-bold">0</span>
             </button>
-            <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
-                <i class="fas fa-bars"></i>
-            </button>
+          <button onclick="toggleMobileMenu()" class="md:hidden text-2xl">
+    <i class="fas fa-bars"></i>
+</button>
             <a href="menu.html" class="hidden sm:block bg-black text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-orange-600 transition">ORDER</a>
         </div>
     </div>
@@ -140,6 +140,14 @@
     // 5. Open WhatsApp in a new tab
     const whatsappURL = `https://wa.me/${ceoNumber}?text=${encodedMessage}`;
     window.open(whatsappURL, '_blank');
+}
+    </script>
+    <script>
+               function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+        menu.classList.toggle('hidden');
+    }
 }
     </script>
     
