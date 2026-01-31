@@ -28,6 +28,7 @@ function filterMenu(category) {
     });
 }
 
+
 // --- CART UI TOGGLES ---
 function toggleCart() {
     const drawer = document.getElementById('cart-drawer');
@@ -157,24 +158,25 @@ async function processOrder() {
     const now = new Date();
     const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    const orderData = {
-        id: "SMK-" + Math.floor(1000 + Math.random() * 9000),
-        secret: orderSecret,
-        prepTime: estTime,
-        status: 'pending',
-        customer: { name: nameInput, address: addressInput, phone: phoneInput },
-        items: [...cart],
-        total: document.getElementById('cart-total').innerText,
-        time: timeStr,
-        remainingSeconds: estTime * 60
-    };
+ const orderData = {
+    id: "SMK-" + Math.floor(1000 + Math.random() * 9000),
+    secret: orderSecret,
+    prepTime: estTime,
+    status: 'pending',
+    customer: { name: nameInput, address: addressInput, phone: phoneInput },
+    items: [...cart],
+    total: document.getElementById('cart-total').innerText,
+    time: timeStr,
+   date: new Date().toLocaleDateString('en-GB'), // Formats as DD/MM/YYYY
+    remainingSeconds: estTime * 60
+};
 
     let orders = JSON.parse(localStorage.getItem('smikah_orders_list')) || [];
     orders.push(orderData);
     localStorage.setItem('smikah_orders_list', JSON.stringify(orders));
 
     const botToken = "8309457191:AAFao8IWckxSxpD9Z0ZLt6XCpjKxAPcKb2E"; 
-    const chatId = "1049274286"; 
+    const chatId = "8443357273"; 
     let message = `🔔 *NEW ORDER REQUEST [${orderData.id}]*%0A👤 *Customer:* ${nameInput}%0A━━━━━━━━━━━━━━━━━━━━━`;
     const keyboard = { inline_keyboard: [[{ text: "✅ ACCEPT", callback_data: `APPROVE_${orderSecret}` }, { text: "❌ DECLINE", callback_data: `DECLINE_${orderSecret}` }]] };
     const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}&parse_mode=Markdown&reply_markup=${JSON.stringify(keyboard)}`;
@@ -252,6 +254,7 @@ function openStatusPage() {
     document.getElementById('success-screen').classList.add('hidden');
     document.getElementById('order-status-page').classList.remove('hidden');
     renderStatusItems();
+    renderHistory(); // <--- Add this
 }
 
 function closeStatusPage() {
@@ -261,62 +264,87 @@ function closeStatusPage() {
 function renderStatusItems() {
     const orders = JSON.parse(localStorage.getItem('smikah_orders_list')) || [];
     const container = document.getElementById('order-summary-display');
-    const mainSpinner = document.getElementById('status-spinner');
-    const statusText = document.getElementById('status-text');
-    const statusDesc = document.getElementById('status-desc');
+    const pickerDate = document.getElementById('history-date-filter').value;
+    const topSpinner = document.getElementById('status-spinner');
 
-    if (orders.length === 0) {
-        container.innerHTML = `<div class="text-center py-10 text-gray-400">No active orders.</div>`;
-        if (mainSpinner) mainSpinner.classList.add('hidden');
+    // Get today's date in the same format as our orders (DD/MM/YYYY)
+    const todayStr = new Date().toLocaleDateString('en-GB');
+    
+    // Convert picker date (YYYY-MM-DD) to our format (DD/MM/YYYY)
+    let selectedDate = "";
+    if (pickerDate) {
+        const d = new Date(pickerDate);
+        selectedDate = d.toLocaleDateString('en-GB');
+    }
+
+    // Filter logic: If no date selected, show all. If date selected, filter.
+    let displayedOrders = selectedDate ? orders.filter(o => o.date === selectedDate) : [...orders];
+
+    // SHOW NO ORDERS MESSAGE
+    if (displayedOrders.length === 0) {
+        topSpinner.classList.add('hidden'); // Hide spinner if nothing found
+        container.innerHTML = `
+            <div class="text-center py-20">
+                <p class="text-[10px] font-black uppercase text-gray-300 tracking-[3px]">No orders for this date</p>
+            </div>`;
         return;
     }
 
-    const hasPending = orders.some(o => o.status === 'pending');
+    // SHOW SPINNER LOGIC: 
+    // Only show if there is a pending order AND (no date is picked OR the picked date is today)
+    const hasPending = displayedOrders.some(o => o.status === 'pending');
+    const isLookingAtToday = !selectedDate || selectedDate === todayStr;
 
-    if (hasPending) {
-        if (mainSpinner) mainSpinner.classList.remove('hidden');
-        if (statusText) statusText.innerText = "Pending...";
-        if (statusDesc) statusDesc.innerText = "We are waiting for Smikah Foods to confirm.";
+    if (hasPending && isLookingAtToday) {
+        topSpinner.classList.remove('hidden');
     } else {
-        if (mainSpinner) mainSpinner.classList.add('hidden');
-        if (statusText) statusText.innerText = "Confirmed!";
-        if (statusDesc) statusDesc.innerText = "Your order has been processed. Check details below.";
+        topSpinner.classList.add('hidden');
     }
 
     let html = "";
-    [...orders].reverse().forEach(order => {
+    displayedOrders.reverse().forEach(order => {
         const isApproved = order.status === 'approved';
+        
         html += `
-        <div class="bg-gray-50 rounded-[30px] p-6 mb-4 border border-gray-100 shadow-sm">
+        <div class="bg-white rounded-[40px] p-6 border border-gray-100 shadow-sm mb-4">
             <div class="flex justify-between items-start mb-4">
-                <div>
-                    <h4 class="font-black text-[10px] uppercase text-gray-400">Order ${order.id}</h4>
-                    <p class="text-[10px] font-bold text-gray-500">${order.time}</p>
+                <div class="text-[10px] font-bold text-gray-400 uppercase">
+                    ORDER ${order.id}<br>${order.time}
                 </div>
-                <span class="px-3 py-1 rounded-full text-[8px] font-black uppercase ${isApproved ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'}">
+                <span class="px-3 py-1 rounded-lg text-[9px] font-black uppercase 
+                    ${isApproved ? 'bg-green-50 text-green-500' : 'bg-orange-50 text-orange-400'}">
                     ${order.status}
                 </span>
             </div>
-            ${isApproved ? `
-                <div class="bg-black text-white p-4 rounded-2xl text-center mb-4">
-                    <p class="text-[8px] uppercase opacity-50 mb-1">Time Remaining</p>
-                    <div class="text-3xl font-black tabular-nums" id="timer-${order.secret}">${formatTime(order.remainingSeconds)}</div>
+
+            ${isApproved && order.remainingSeconds > 0 ? `
+                <div class="bg-black rounded-[30px] p-6 text-center mb-6">
+                    <p class="text-[7px] uppercase font-bold text-gray-500 tracking-widest mb-1">TIME REMAINING</p>
+                    <div class="text-4xl font-bold text-white tabular-nums" id="timer-${order.secret}">${formatTime(order.remainingSeconds)}</div>
                 </div>
             ` : ''}
-            <div class="space-y-1 mb-4">
-                ${order.items.map(item => `<div class="flex justify-between text-xs"><span>${item.qty}x ${item.name}</span><b>₦${(item.price * item.qty).toLocaleString()}</b></div>`).join('')}
-                <div class="flex justify-between border-t mt-2 pt-2 font-bold text-orange-600"><span>Total</span><span>${order.total}</span></div>
+
+            <div class="space-y-2 pb-3 border-b border-gray-100">
+                ${order.items.map(item => `
+                    <div class="flex justify-between text-[12px] font-medium text-black">
+                        <span>${item.qty}x ${item.name}</span>
+                        <span>₦${(item.price * item.qty).toLocaleString()}</span>
+                    </div>`).join('')}
             </div>
-            ${isApproved ? `
-                <button onclick="viewReceipt('${order.secret}')" class="w-full py-3 bg-white border border-gray-200 rounded-xl text-[10px] font-black uppercase tracking-widest">
-                    <i class="fas fa-file-invoice mr-2"></i> View Receipt
-                </button>
-            ` : ''}
+
+            <div class="flex justify-between py-4 mb-2">
+                <span class="text-lg font-black text-orange-600">Total</span>
+                <span class="text-lg font-black text-orange-600">₦${order.total.replace('₦','')}</span>
+            </div>
+
+            <button onclick="viewReceipt('${order.secret}')" class="w-full py-3 border border-gray-200 rounded-2xl text-[10px] font-black uppercase flex items-center justify-center gap-2">
+                <i class="fas fa-file-alt text-xs"></i> VIEW RECEIPT
+            </button>
         </div>`;
     });
+
     container.innerHTML = html;
 }
-
 function viewReceipt(secret) {
     console.log("Forcing receipt open for:", secret);
     
@@ -325,18 +353,15 @@ function viewReceipt(secret) {
 
     if (!order) return alert("Order not found.");
 
-   let receiptHTML = `
-        <div style="text-align: center; border-bottom: 2px dashed #eee; padding-bottom: 15px; margin-bottom: 15px;">
-            <div style="margin-bottom: 10px;">
-                <span style="font-size: 24px; font-weight: 900; color: #ea580c; letter-spacing: -1px; text-transform: uppercase;">
-                    SMIKAH<span style="color: #000;">FOODS</span>
-                </span>
-            </div>
-            
-            <p style="font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin: 0;">Enugu, Nigeria</p>
-            <div style="background: #000; color: #fff; display: inline-block; padding: 2px 10px; border-radius: 5px; font-size: 10px; margin-top: 10px; font-weight: bold;">
-                ORDER ID: ${order.id}
-            </div>
+  let receiptHTML = `
+    <div style="text-align: center; border-bottom: 2px dashed #eee; padding-bottom: 15px; margin-bottom: 15px;">
+        <h2 style="font-weight: 900; font-size: 18px; margin: 0;">SMIKAH FOODS</h2>
+        <p style="font-size: 11px; color: #666; margin: 5px 0;">DATE: ${order.date} | TIME: ${order.time}</p>
+        <p style="font-size: 10px; font-weight: bold; background: #000; color: #fff; display: inline-block; padding: 2px 8px; border-radius: 4px; margin-top: 5px;">
+            ID: ${order.id}
+        </p>
+    </div>
+
             <p style="font-size: 11px; color: #888; margin-top: 5px;">${order.time}</p>
         </div>
         
@@ -420,3 +445,58 @@ window.addEventListener('load', () => {
 });
 
 renderCart();
+
+// --- HISTORY SYSTEM ---
+function renderHistory(filteredDate = null) {
+    const orders = JSON.parse(localStorage.getItem('smikah_orders_list')) || [];
+    const historyList = document.getElementById('history-list');
+    
+    // We only show "approved" or "declined" orders in history
+    let historyOrders = orders.filter(o => o.status !== 'pending');
+
+    if (filteredDate) {
+        // Match the date (YYYY-MM-DD)
+        historyOrders = historyOrders.filter(o => o.date === filteredDate);
+    }
+
+    if (historyOrders.length === 0) {
+        historyList.innerHTML = `<p class="text-[10px] text-center text-gray-400 py-4">No orders found for this date.</p>`;
+        return;
+    }
+
+    historyList.innerHTML = historyOrders.reverse().map(order => `
+        <div class="flex justify-between items-center bg-white p-3 rounded-xl border border-gray-100 shadow-sm">
+            <div>
+                <p class="font-black text-[10px]">${order.id}</p>
+                <p class="text-[8px] text-gray-400">${order.date} | ${order.time}</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold">₦${order.total}</span>
+                <button onclick="viewReceipt('${order.secret}')" class="text-orange-600 p-2">
+                    <i class="fas fa-eye text-xs"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterHistoryByDate() {
+    const selectedDate = document.getElementById('history-date-filter').value;
+    renderHistory(selectedDate);
+}
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu-items');
+    
+    if (menu) {
+        // We use 'hidden' for Tailwind, but force display for safety
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+            menu.classList.add('flex');
+            menu.style.display = 'flex'; // Force it for mobile browsers
+        } else {
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
+            menu.style.display = 'none';
+        }
+    }
+}
