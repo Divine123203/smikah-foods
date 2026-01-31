@@ -444,7 +444,7 @@ window.addEventListener('load', () => {
     }
 });
 
-renderCart();
+
 
 // --- HISTORY SYSTEM ---
 function renderHistory(filteredDate = null) {
@@ -500,3 +500,6 @@ function toggleMobileMenu() {
         }
     }
 }
+
+
+renderCart();
